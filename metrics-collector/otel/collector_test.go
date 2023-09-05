@@ -60,7 +60,7 @@ func TestParser(t *testing.T) {
 
 func TestBelowCollector(t *testing.T) {
 	ctx := context.Background()
-	_, err := collectBelowMetrics(ctx)
+	_, err := collectBelowMetrics()
 	if err != nil {
 		t.Fatalf("Error collecting below metrics: %s", err)
 	}

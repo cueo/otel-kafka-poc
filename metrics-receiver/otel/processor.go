@@ -41,13 +41,13 @@ func ProcessMetrics(ctx context.Context) {
 	defer r.Shutdown(ctx)
 
 	c := make(chan os.Signal, 1)
-    signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	done := make(chan bool)
-    go func() {
-        <-c
-        logger.Info("Shutting down...")
-        os.Exit(1)
-    }()
+	go func() {
+		<-c
+		logger.Info("Shutting down...")
+		os.Exit(1)
+	}()
 
 	r.Start(ctx, nil)
 	<-done

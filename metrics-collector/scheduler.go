@@ -2,12 +2,11 @@ package main
 
 import (
 	"context"
+	"mmynk/metrics-collector/otel"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"mmynk/metrics-collector/otel"
 )
 
 func publishMetrics(ctx context.Context) {

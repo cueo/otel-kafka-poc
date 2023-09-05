@@ -13,46 +13,46 @@ import (
 )
 
 type Metric struct {
-	Name string
-	Value float64
-	Unit string
-	Type string
+	Name   string
+	Value  float64
+	Unit   string
+	Type   string
 	Labels map[string]string
 }
 
 type Metrics []Metric
 
 func parseOpenMetrics(text string) Metrics {
-	metrics_lines := strings.Split(text, "\n")
+	metricsLines := strings.Split(text, "\n")
 	var metrics Metrics
 
 	metric := Metric{}
-	for _, metric_line := range metrics_lines {
-		if len(metric_line) == 0 {
+	for _, metricLine := range metricsLines {
+		if len(metricLine) == 0 {
 			continue
 		}
-		metric_line = strings.TrimSpace(metric_line)
+		metricLine = strings.TrimSpace(metricLine)
 
-		if strings.HasPrefix(metric_line, "# TYPE") {
+		if strings.HasPrefix(metricLine, "# TYPE") {
 			// parse type
-			metric.Type = strings.Split(metric_line, " ")[3]
-		} else if strings.HasPrefix(metric_line, "# UNIT") {
+			metric.Type = strings.Split(metricLine, " ")[3]
+		} else if strings.HasPrefix(metricLine, "# UNIT") {
 			// parse unit
-			metric.Unit = strings.Split(metric_line, " ")[3]
-		} else if !strings.HasPrefix(metric_line, "#") {
+			metric.Unit = strings.Split(metricLine, " ")[3]
+		} else if !strings.HasPrefix(metricLine, "#") {
 			// parse metric
-			segments := strings.Split(metric_line, " ")
+			segments := strings.Split(metricLine, " ")
 			name := segments[0]
 
 			// parse attributes
 			labels := make(map[string]string)
 			re := regexp.MustCompile(`(.*)\{(.*)\}`)
 			if re.MatchString(name) {
-				attributes_str := re.FindStringSubmatch(name)[2]
-				attributes_arr := strings.Split(attributes_str, ",")
-				for _, a := range attributes_arr {
+				attributesStr := re.FindStringSubmatch(name)[2]
+				attributesArr := strings.Split(attributesStr, ",")
+				for _, a := range attributesArr {
 					segments := strings.Split(a, "=")
-					labels[segments[0]] = removeQuotes(segments[1]);
+					labels[segments[0]] = removeQuotes(segments[1])
 				}
 				name = re.FindStringSubmatch(name)[1]
 			}
@@ -61,7 +61,7 @@ func parseOpenMetrics(text string) Metrics {
 			metric.Value, _ = strconv.ParseFloat(segments[1], 64)
 			metric.Labels = labels
 			metrics = append(metrics, metric)
-		} else if strings.HasPrefix(metric_line, "# EOF") {
+		} else if strings.HasPrefix(metricLine, "# EOF") {
 			// end of file
 			break
 		}
@@ -98,7 +98,7 @@ func counter(om Metric, m pmetric.Metric) pmetric.Sum {
 // 	return attrs
 // }
 
-func collectBelowMetrics(ctx context.Context) (pmetric.ResourceMetrics, error) {
+func collectBelowMetrics() (pmetric.ResourceMetrics, error) {
 	logger.Info("Collecting below metrics")
 	var metrics Metrics
 	bms := below.ReadMetrics()
@@ -157,7 +157,7 @@ func CollectMetrics(ctx context.Context) error {
 	defer me.Shutdown(ctx)
 
 	ms := pmetric.NewMetrics()
-	rm, err := collectBelowMetrics(ctx)
+	rm, err := collectBelowMetrics()
 	if err != nil {
 		logger.Error("Failed to collect below metrics", zap.Error(err))
 	}

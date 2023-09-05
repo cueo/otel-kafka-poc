@@ -15,7 +15,13 @@ import (
 	"go.uber.org/zap"
 )
 
-var logger, _ = zap.NewDevelopment()
+var (
+	logger, _ = zap.NewDevelopment()
+
+	// Kafka
+	broker = "kafka:9092"
+	topic  = "avx-metrics"
+)
 
 // func newResource() *resource.Resource {
 // 	r, _ := resource.Merge(
@@ -31,18 +37,22 @@ var logger, _ = zap.NewDevelopment()
 
 func newExporter(ctx context.Context) (exporter.Metrics, error) {
 	f := kafkaexporter.NewFactory(kafkaexporter.WithMetricsMarshalers())
+
 	cfg := f.CreateDefaultConfig().(*kafkaexporter.Config)
-	cfg.Topic = "metrics"
+	cfg.Brokers = []string{broker}
+	cfg.Topic = topic
+
 	ts := component.TelemetrySettings{
-		Logger:          logger,
-		MeterProvider:   meterProvider(),
-		TracerProvider:  tracerProvider(),
-		MetricsLevel:    configtelemetry.LevelNormal,
+		Logger:         logger,
+		MeterProvider:  meterProvider(),
+		TracerProvider: tracerProvider(),
+		MetricsLevel:   configtelemetry.LevelNormal,
 	}
+
 	cs := exporter.CreateSettings{
-		ID:               component.NewID("metrics"),
+		ID:                component.NewID("metrics"),
 		TelemetrySettings: ts,
-		BuildInfo:        component.NewDefaultBuildInfo(),
+		BuildInfo:         component.NewDefaultBuildInfo(),
 	}
 
 	return f.CreateMetricsExporter(ctx, cs, cfg)

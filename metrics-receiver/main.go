@@ -1,8 +1,8 @@
 package main
 
 import (
-	"mmynk/metrics-receiver/otel"
 	"context"
+	"mmynk/metrics-receiver/otel"
 
 	"go.uber.org/zap"
 )
