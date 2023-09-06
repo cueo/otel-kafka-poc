@@ -1,9 +1,6 @@
 package otel
 
-import (
-	"context"
-	"testing"
-)
+import "testing"
 
 var openmetrics_txt = `# TYPE ethtool_queue_rx_bytes_per_sec_bytes_per_second gauge
 	# UNIT ethtool_queue_rx_bytes_per_sec_bytes_per_second bytes_per_second
@@ -59,7 +56,6 @@ func TestParser(t *testing.T) {
 }
 
 func TestBelowCollector(t *testing.T) {
-	ctx := context.Background()
 	_, err := collectBelowMetrics()
 	if err != nil {
 		t.Fatalf("Error collecting below metrics: %s", err)
