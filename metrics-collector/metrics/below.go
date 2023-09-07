@@ -1,4 +1,4 @@
-package below
+package metrics
 
 import "os/exec"
 
@@ -22,6 +22,6 @@ func readNetworkMetrics() []string {
 	return []string{ifaceMetrics}
 }
 
-func ReadMetrics() []string {
+func ReadBelowMetrics() []string {
 	return readNetworkMetrics()
 }

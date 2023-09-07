@@ -2,13 +2,12 @@ package otel
 
 import (
 	"context"
-	"mmynk/metrics-collector/below"
+	"mmynk/metrics-collector/metrics"
 	"regexp"
 	"strconv"
 	"strings"
 
 	"go.opentelemetry.io/collector/pdata/pmetric"
-	// "go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 )
 
@@ -99,23 +98,23 @@ func counter(om Metric, m pmetric.Metric) pmetric.Sum {
 // }
 
 func collectBelowMetrics() (pmetric.ResourceMetrics, error) {
-	logger.Info("Collecting below metrics")
-	var metrics Metrics
-	bms := below.ReadMetrics()
+	logger.Info("Collecting metrics metrics")
+	var m Metrics
+	bms := metrics.ReadBelowMetrics()
 	for _, bm := range bms {
-		metrics = append(metrics, parseOpenMetrics(bm)...)
+		m = append(m, parseOpenMetrics(bm)...)
 	}
 
 	// mp := meterProvider()
-	// meter := mp.Meter("below")
+	// meter := mp.Meter("metrics")
 
 	rm := pmetric.NewResourceMetrics()
 	sm := rm.ScopeMetrics().AppendEmpty()
-	for _, om := range metrics {
+	for _, om := range m {
 		// create metric
-		m := sm.Metrics().AppendEmpty()
-		m.SetName(om.Name)
-		m.SetUnit(om.Unit)
+		metric := sm.Metrics().AppendEmpty()
+		metric.SetName(om.Name)
+		metric.SetUnit(om.Unit)
 
 		switch om.Type {
 		case "gauge":
@@ -124,7 +123,7 @@ func collectBelowMetrics() (pmetric.ResourceMetrics, error) {
 			// 	o.ObserveFloat64(gauge, om.Value, observeOption(om.Labels))
 			// 	return nil
 			// }, g)
-			gauge(om, m)
+			gauge(om, metric)
 		case "counter":
 		default:
 			// meter.Int64ObservableCounter(om.Name, metric.WithUnit(om.Unit))
@@ -134,7 +133,7 @@ func collectBelowMetrics() (pmetric.ResourceMetrics, error) {
 			// } else {
 			// 	ctr.Add(ctx, int64(om.Value), addOption(om.Labels))
 			// }
-			counter(om, m)
+			counter(om, metric)
 		}
 	}
 
