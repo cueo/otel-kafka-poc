@@ -18,7 +18,7 @@ bin/kafka-server-start.sh config/kraft/server.properties
 
 ### Create a topic
 ```shell
-export KAFKA_METRICS_TOPIC="metrics"
+export KAFKA_TOPIC="metrics"
 bin/kafka-topics.sh --create --topic $KAFKA_TOPIC --bootstrap-server localhost:9092
 ```
 ### Read metrics from the topic
