@@ -4,9 +4,9 @@
 
 ### Download and untar Kafka
 ```shell
-wget https://dlcdn.apache.org/kafka/3.5.0/kafka_2.13-3.5.0.tgz -O kafka.tgz
+wget https://dlcdn.apache.org/kafka/3.6.0/kafka_2.13-3.6.0.tgz -O kafka.tgz
 tar -xzf kafka.tgz
-cd kafka_2.13-3.5.0
+cd kafka_2.13-3.6.0
 ```
 
 ### Start Kafka server
@@ -29,7 +29,7 @@ bin/kafka-console-consumer.sh --topic $KAFKA_TOPIC --bootstrap-server localhost:
 
 ## Handy aliases
 ```shell
-KAFKA_DIR="~/dev/kafka/kafka_2.13-3.5.0"
+KAFKA_DIR="~/dev/kafka/kafka_2.13-3.6.0"
 kafka_start() {
   KAFKA_CLUSTER_ID="$($KAFKA_DIR/bin/kafka-storage.sh random-uuid)"
   $KAFKA_DIR/bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c $KAFKA_DIR/config/kraft/server.properties
