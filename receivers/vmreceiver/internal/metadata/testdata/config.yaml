@@ -1,0 +1,81 @@
+default:
+all_set:
+  metrics:
+    active:
+      enabled: true
+    blocks_received:
+      enabled: true
+    blocks_sent:
+      enabled: true
+    buffered:
+      enabled: true
+    cached:
+      enabled: true
+    context_switches:
+      enabled: true
+    free:
+      enabled: true
+    idle_time:
+      enabled: true
+    inactive:
+      enabled: true
+    interrupts:
+      enabled: true
+    io_wait_time:
+      enabled: true
+    runnable_procs:
+      enabled: true
+    stolen_time:
+      enabled: true
+    swap_in:
+      enabled: true
+    swap_out:
+      enabled: true
+    swapped:
+      enabled: true
+    system_time:
+      enabled: true
+    total_procs:
+      enabled: true
+    user_time:
+      enabled: true
+none_set:
+  metrics:
+    active:
+      enabled: false
+    blocks_received:
+      enabled: false
+    blocks_sent:
+      enabled: false
+    buffered:
+      enabled: false
+    cached:
+      enabled: false
+    context_switches:
+      enabled: false
+    free:
+      enabled: false
+    idle_time:
+      enabled: false
+    inactive:
+      enabled: false
+    interrupts:
+      enabled: false
+    io_wait_time:
+      enabled: false
+    runnable_procs:
+      enabled: false
+    stolen_time:
+      enabled: false
+    swap_in:
+      enabled: false
+    swap_out:
+      enabled: false
+    swapped:
+      enabled: false
+    system_time:
+      enabled: false
+    total_procs:
+      enabled: false
+    user_time:
+      enabled: false

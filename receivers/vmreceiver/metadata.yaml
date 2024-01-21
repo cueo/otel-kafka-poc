@@ -1,0 +1,232 @@
+type: vmstats
+
+status:
+  class: receiver
+  stability:
+    alpha: [metrics]
+  distributions: [contrib]
+
+attributes:
+  hostname:
+    description: Hostname of the machine
+    type: string
+  os:
+    description: Operating system of the machine
+    type: string
+  arch:
+    description: Architecture of the machine
+    type: string
+  type:
+    description: "Type of the metric (eg: memory, swap, system, etc)"
+    type: string
+
+metrics:
+  runnable_procs:
+    enabled: true
+    description: Number of runnable processes
+    unit: processes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  total_procs:
+    enabled: true
+    description: Total number of processes
+    unit: processes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  swapped:
+    enabled: true
+    description: Amount of virtual memory used
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  free:
+    enabled: true
+    description: Amount of idle memory
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  buffered:
+    enabled: true
+    description: Amount of memory used as buffers
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  cached:
+    enabled: true
+    description: Amount of memory used as cache
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  inactive:
+    enabled: true
+    description: Amount of inactive memory
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  active:
+    enabled: true
+    description: Amount of active memory
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  swap_in:
+    enabled: true
+    description: Amount of memory swapped in from disk
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  swap_out:
+    enabled: true
+    description: Amount of memory swapped to a block device
+    unit: bytes
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  blocks_received:
+    enabled: true
+    description: Blocks received from a block device per second
+    unit: blocks
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  blocks_sent:
+    enabled: true
+    description: Blocks sent to a block device per second
+    unit: blocks
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  interrupts:
+    enabled: true
+    description: Number of interrupts per second, including the clock
+    unit: interrupts
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  context_switches:
+    enabled: true
+    description: Number of context switches per second
+    unit: switches
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  user_time:
+    enabled: true
+    description: Time spent running non-kernel code (user time, including nice time)
+    unit: seconds
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  system_time:
+    enabled: true
+    description: Time spent running kernel code (system time)
+    unit: seconds
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  idle_time:
+    enabled: true
+    description: Time spent idle
+    unit: seconds
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  io_wait_time:
+    enabled: true
+    description: Time spent waiting for IO
+    unit: seconds
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
+  stolen_time:
+    enabled: true
+    description: Time stolen from a virtual machine
+    unit: seconds
+    gauge:
+      value_type: int
+    attributes:
+      - hostname
+      - os
+      - arch
+      - type
