@@ -1,0 +1,11 @@
+dist:
+  name: otelcol
+  description: An OpenTelemetry Collector which collects system metrics and exports to Kafka
+  output_path: ./otelcol-dev
+  otelcol_version: 0.92.0
+
+receivers:
+  - gomod: github.com/mmynk/otel-kafka-poc/receivers/vmreceiver v0.0.1
+    import: github.com/mmynk/otel-kafka-poc/receivers/vmreceiver
+    name: 'vmreceiver'
+    path: './receivers/vmreceiver'
