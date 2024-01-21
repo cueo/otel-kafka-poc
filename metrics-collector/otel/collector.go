@@ -23,7 +23,7 @@ type Metrics []Metric
 
 func parseOpenMetrics(text string) Metrics {
 	metricsLines := strings.Split(text, "\n")
-	var metrics Metrics
+	var m Metrics
 
 	metric := Metric{}
 	for _, metricLine := range metricsLines {
@@ -45,7 +45,7 @@ func parseOpenMetrics(text string) Metrics {
 
 			// parse attributes
 			labels := make(map[string]string)
-			re := regexp.MustCompile(`(.*)\{(.*)\}`)
+			re := regexp.MustCompile(`(.*)\{(.*)}`)
 			if re.MatchString(name) {
 				attributesStr := re.FindStringSubmatch(name)[2]
 				attributesArr := strings.Split(attributesStr, ",")
@@ -59,14 +59,14 @@ func parseOpenMetrics(text string) Metrics {
 			metric.Name = name
 			metric.Value, _ = strconv.ParseFloat(segments[1], 64)
 			metric.Labels = labels
-			metrics = append(metrics, metric)
+			m = append(m, metric)
 		} else if strings.HasPrefix(metricLine, "# EOF") {
 			// end of file
 			break
 		}
 	}
-	logger.Debug("Parsed metrics", zap.Any("metrics", metrics))
-	return metrics
+	logger.Debug("Parsed metrics", zap.Any("metrics", m))
+	return m
 }
 
 func removeQuotes(s string) string {
