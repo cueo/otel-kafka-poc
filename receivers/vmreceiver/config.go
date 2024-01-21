@@ -9,11 +9,15 @@ import (
 )
 
 type Config struct {
-	Delay int `mapstructure:",omitempty"` // Delay is the delay between consecutive `vmstat` calls.
-	Count int `mapstructure:",omitempty"` // Count is the number of `vmstat` calls to make.
+	// Delay is the delay between `vmstat` calls
+	Delay int `mapstructure:"delay"`
+	// Count is the number of `vmstat` calls to make
+	Count int `mapstructure:"count"`
 
-	metadata.MetricsBuilderConfig           `mapstructure:",squash"` // MetricsBuilderConfig to enable/disable specific metrics (default: all enabled)
-	scraperhelper.ScraperControllerSettings `mapstructure:",squash"` // ScraperControllerSettings to configure scraping interval (default: scrape every second)
+	// MetricsBuilderConfig to enable/disable specific metrics (default: all enabled)
+	metadata.MetricsBuilderConfig `mapstructure:",squash"`
+	// ScraperControllerSettings to configure scraping interval (default: scrape every second)
+	scraperhelper.ScraperControllerSettings `mapstructure:",squash"`
 }
 
 func (cfg *Config) Validate() error {
