@@ -73,30 +73,58 @@ func (r *vmStatReader) parse(out []byte) (*vmStat, error) {
 		return int64(i)
 	}
 
+	fields := strings.Fields(data[1])
+
 	for _, line := range data[2:] {
-		fields := strings.Fields(line)
-		if len(fields) < 18 {
+		if line == "" {
 			continue
 		}
-		vmStat.RunnableProcs += parseInt(fields[0])
-		vmStat.TotalProcs += parseInt(fields[1])
-		vmStat.Swapped += parseInt(fields[2])
-		vmStat.Free += parseInt(fields[3])
-		vmStat.Buffered += parseInt(fields[4])
-		vmStat.Cached += parseInt(fields[5])
-		vmStat.Inactive += parseInt(fields[6])
-		vmStat.Active += parseInt(fields[7])
-		vmStat.SwapIn += parseInt(fields[8])
-		vmStat.SwapOut += parseInt(fields[9])
-		vmStat.BlocksReceived += parseInt(fields[10])
-		vmStat.BlocksSent += parseInt(fields[11])
-		vmStat.Interrupts += parseInt(fields[12])
-		vmStat.ContextSwitches += parseInt(fields[13])
-		vmStat.UserTime += parseInt(fields[14])
-		vmStat.SystemTime += parseInt(fields[15])
-		vmStat.IdleTime += parseInt(fields[16])
-		vmStat.IoWaitTime += parseInt(fields[17])
-		vmStat.StolenTime += parseInt(fields[18])
+		values := strings.Fields(line)
+		if len(values) != len(fields) {
+			return nil, fmt.Errorf("invalid vmstat data to parse")
+		}
+		for i, v := range values {
+			switch fields[i] {
+			case "r":
+				vmStat.RunnableProcs += parseInt(v)
+			case "b":
+				vmStat.TotalProcs += parseInt(v)
+			case "swpd":
+				vmStat.Swapped += parseInt(v)
+			case "free":
+				vmStat.Free += parseInt(v)
+			case "buff":
+				vmStat.Buffered += parseInt(v)
+			case "cache":
+				vmStat.Cached += parseInt(v)
+			case "inact":
+				vmStat.Inactive += parseInt(v)
+			case "active":
+				vmStat.Active += parseInt(v)
+			case "si":
+				vmStat.SwapIn += parseInt(v)
+			case "so":
+				vmStat.SwapOut += parseInt(v)
+			case "bi":
+				vmStat.BlocksReceived += parseInt(v)
+			case "bo":
+				vmStat.BlocksSent += parseInt(v)
+			case "in":
+				vmStat.Interrupts += parseInt(v)
+			case "cs":
+				vmStat.ContextSwitches += parseInt(v)
+			case "us":
+				vmStat.UserTime += parseInt(v)
+			case "sy":
+				vmStat.SystemTime += parseInt(v)
+			case "id":
+				vmStat.IdleTime += parseInt(v)
+			case "wa":
+				vmStat.IoWaitTime += parseInt(v)
+			case "st":
+				vmStat.StolenTime += parseInt(v)
+			}
+		}
 	}
 
 	n := int64(len(data[2:]))

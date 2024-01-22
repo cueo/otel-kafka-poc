@@ -33,6 +33,7 @@ func newScraper(cfg *Config, metricsBuilder *metadata.MetricsBuilder, logger *za
 }
 
 func (s *scraper) scrape(_ context.Context) (pmetric.Metrics, error) {
+	s.logger.Info("Scraping vm stats")
 	vmStat, err := s.reader.Read()
 	if err != nil {
 		return pmetric.Metrics{}, err
